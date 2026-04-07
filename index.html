@@ -935,9 +935,52 @@
       .nav-links { gap: 1rem; }
       .photo-grid { grid-template-columns: 1fr; }
     }
+
+    /* ── WIP BANNER ── */
+    .wip-banner {
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      z-index: 200;
+      background: rgba(14,14,14,0.92);
+      border-top: 1px solid var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.65rem 2rem;
+      backdrop-filter: blur(8px);
+      gap: 1rem;
+    }
+    .wip-banner p {
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+    .wip-banner p span {
+      color: var(--accent);
+      font-weight: 500;
+    }
+    .wip-banner button {
+      background: none;
+      border: none;
+      color: var(--muted);
+      font-size: 0.9rem;
+      cursor: pointer;
+      line-height: 1;
+      flex-shrink: 0;
+      padding: 0.1rem 0.3rem;
+      transition: color 0.2s;
+    }
+    .wip-banner button:hover { color: var(--text); }
   </style>
 </head>
 <body>
+
+  <!-- Work in progress banner -->
+  <div class="wip-banner" id="wipBanner">
+    <p><span>Work in progress</span> — site is still being built. More photos & content coming soon.</p>
+    <button onclick="document.getElementById('wipBanner').style.display='none'" title="Dismiss">✕</button>
+  </div>
 
   <nav>
     <a class="nav-logo" href="#"><span class="brand">ryker</span>.jpeg</a>
