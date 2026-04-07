@@ -402,6 +402,15 @@
       border: none;
     }
 
+    /* Clip YouTube title bar at top */
+    .video-slot iframe {
+      position: absolute;
+      top: -62px;
+      left: 0;
+      width: 100%;
+      height: calc(100% + 62px);
+    }
+
     .video-placeholder {
       width: 100%;
       height: 100%;
