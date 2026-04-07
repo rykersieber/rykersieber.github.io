@@ -1,0 +1,1407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ryker Sieber — Photography & Video</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cormorant+Garamond:ital,wght@0,300;1,300&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:     #0e0e0e;
+      --bg2:    #131313;
+      --text:   #ede8e3;
+      --muted:  #5a5550;
+      --line:   #1e1e1e;
+      --accent: #b8935a;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    /* Film grain */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.04;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 180px;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem 3rem;
+    }
+
+    .nav-logo {
+      font-size: 0.82rem;
+      font-weight: 400;
+      letter-spacing: 0.04em;
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    .nav-logo .brand { color: var(--accent); }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--text); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 0 3rem 4rem;
+    }
+
+    .hero-eyebrow {
+      font-size: 0.7rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 1.25rem;
+    }
+
+    .hero-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(5.5rem, 17vw, 15rem);
+      line-height: 0.88;
+      color: var(--text);
+    }
+
+    .hero-name span { display: block; }
+    .hero-name .offset { padding-left: clamp(2rem, 9vw, 9rem); }
+
+    .hero-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-top: 2.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--line);
+    }
+
+    .hero-tagline {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-weight: 300;
+      font-size: clamp(1rem, 1.8vw, 1.3rem);
+      color: var(--muted);
+      max-width: 340px;
+      line-height: 1.6;
+    }
+
+    .hero-cta {
+      display: flex;
+      gap: 2.5rem;
+      align-items: center;
+    }
+
+    .hero-cta a {
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      transition: gap 0.2s;
+    }
+
+    .hero-cta a:hover { gap: 0.7rem; }
+    .hero-cta a.dim { color: var(--muted); }
+    .hero-cta a.dim:hover { color: var(--text); }
+    .hero-cta svg { width: 13px; height: 13px; flex-shrink: 0; }
+
+    /* ── MARQUEE ── */
+    .marquee-wrap {
+      overflow: hidden;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      padding: 0.95rem 0;
+    }
+
+    .marquee-inner {
+      display: flex;
+      width: max-content;
+      animation: marquee 28s linear infinite;
+    }
+
+    .marquee-inner:hover { animation-play-state: paused; }
+
+    .marquee-item {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      padding-right: 2rem;
+      font-size: 0.68rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    .marquee-sep {
+      width: 3px;
+      height: 3px;
+      border-radius: 50%;
+      background: var(--accent);
+      flex-shrink: 0;
+    }
+
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+
+    /* ── SERVICES ── */
+    .services {
+      padding: 6rem 3rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .services-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding-bottom: 1.75rem;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .services-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 300;
+      line-height: 1.05;
+    }
+
+    .services-meta {
+      font-size: 0.68rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .svc-row {
+      display: flex;
+      align-items: center;
+      gap: 1.75rem;
+      padding: 1.35rem 0;
+      border-bottom: 1px solid var(--line);
+      transition: padding-left 0.25s ease;
+    }
+
+    .svc-row:hover { padding-left: 0.6rem; }
+    .svc-row:hover .svc-num  { color: var(--accent); }
+    .svc-row:hover .svc-name { color: var(--text); }
+    .svc-row:hover .svc-arr  { opacity: 1; transform: translateX(0); color: var(--accent); }
+
+    .svc-num {
+      font-size: 0.62rem;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      width: 1.75rem;
+      flex-shrink: 0;
+      transition: color 0.2s;
+    }
+
+    .svc-name {
+      font-size: clamp(1.1rem, 2.2vw, 1.45rem);
+      font-weight: 300;
+      color: #c0bbb6;
+      flex: 1;
+      transition: color 0.2s;
+    }
+
+    .svc-arr {
+      opacity: 0;
+      transform: translateX(-10px);
+      transition: opacity 0.2s, transform 0.2s, color 0.2s;
+      color: var(--muted);
+      flex-shrink: 0;
+    }
+
+    .svc-arr svg { width: 17px; height: 17px; display: block; }
+
+    .svc-section-label {
+      font-size: 0.6rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--accent);
+      padding: 1.5rem 0 0.5rem;
+    }
+
+    /* ── WORK / PORTFOLIO ── */
+    .work {
+      padding: 6rem 3rem;
+      max-width: 1100px;
+      margin: 0 auto;
+      border-top: 1px solid var(--line);
+    }
+
+    .work-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding-bottom: 1.75rem;
+      border-bottom: 1px solid var(--line);
+      margin-bottom: 2rem;
+    }
+
+    .work-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 300;
+      line-height: 1.05;
+    }
+
+    .work-meta {
+      font-size: 0.68rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    /* Photo grid
+       ─────────────────────────────────────────────────────────────────
+       TO ADD YOUR PHOTOS:
+         1. Create a folder called "images" next to index.html
+         2. Drop your photos in (jpg, png, webp — anything works)
+         3. In each .photo-slot below, replace the src="images/photo1.jpg"
+            with your actual filename, e.g. src="images/portrait-session.jpg"
+         4. To add more slots, copy a whole <div class="photo-slot"> block
+         5. To remove a slot, delete that block
+       ─────────────────────────────────────────────────────────────────
+    */
+    .photo-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.75rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .photo-slot {
+      position: relative;
+      aspect-ratio: 4 / 3;
+      overflow: hidden;
+      background: var(--bg2);
+      border: 1px solid var(--line);
+    }
+
+    .photo-slot img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.4s ease;
+    }
+
+    .photo-slot:hover img { transform: scale(1.03); }
+
+    /* Shown when image is missing or not yet added */
+    .photo-slot.placeholder {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .photo-slot.placeholder::before {
+      content: '';
+      width: 24px;
+      height: 24px;
+      border: 1px solid var(--line);
+      border-radius: 50%;
+      display: block;
+    }
+
+    .photo-slot.placeholder::after {
+      content: 'Add Photo';
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    /* Video grid
+       ─────────────────────────────────────────────────────────────────
+       TO ADD YOUR VIDEOS — two options:
+
+       Option A  Local file (add video to a "videos/" folder):
+         <video controls>
+           <source src="videos/your-video.mp4" type="video/mp4" />
+         </video>
+
+       Option B  YouTube embed (get embed link from YouTube → Share → Embed):
+         <iframe
+           src="https://www.youtube.com/embed/YOUR_VIDEO_ID"
+           frameborder="0" allowfullscreen>
+         </iframe>
+
+       Replace the <div class="video-placeholder"> block with one of the above.
+       To add more slots, copy a whole <div class="video-slot"> block.
+       ─────────────────────────────────────────────────────────────────
+    */
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.75rem;
+    }
+
+    .video-slot {
+      position: relative;
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
+      background: var(--bg2);
+      border: 1px solid var(--line);
+    }
+
+    .video-slot video,
+    .video-slot iframe {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      border: none;
+    }
+
+    .video-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .video-placeholder::before {
+      content: '';
+      width: 0;
+      height: 0;
+      border-style: solid;
+      border-width: 8px 0 8px 14px;
+      border-color: transparent transparent transparent var(--line);
+      display: block;
+    }
+
+    .video-placeholder::after {
+      content: 'Add Video';
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    /* ── VIDEO SERVICES ── */
+    .video-section {
+      padding: 0 3rem 6rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .video-block {
+      background: var(--bg2);
+      border: 1px solid var(--line);
+      border-radius: 3px;
+      padding: 2.75rem;
+      display: flex;
+      gap: 3rem;
+      align-items: flex-start;
+    }
+
+    .video-vert-label {
+      font-size: 0.62rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--muted);
+      writing-mode: vertical-rl;
+      transform: rotate(180deg);
+      flex-shrink: 0;
+      padding-top: 0.2rem;
+    }
+
+    .video-body { flex: 1; }
+
+    .video-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: clamp(1.5rem, 3vw, 2.2rem);
+      font-weight: 300;
+      margin-bottom: 0.75rem;
+    }
+
+    .video-desc {
+      font-size: 0.875rem;
+      font-weight: 300;
+      color: var(--muted);
+      line-height: 1.75;
+      margin-bottom: 1.75rem;
+      max-width: 520px;
+    }
+
+    .video-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+    }
+
+    .video-tag {
+      font-size: 0.68rem;
+      letter-spacing: 0.07em;
+      padding: 0.28rem 0.75rem;
+      border: 1px solid var(--line);
+      border-radius: 2px;
+      color: var(--muted);
+    }
+
+    /* ── PERSONAL ── */
+    .personal {
+      padding: 6rem 3rem;
+      max-width: 1100px;
+      margin: 0 auto;
+      border-top: 1px solid var(--line);
+    }
+
+    .personal-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      padding-bottom: 1.75rem;
+      border-bottom: 1px solid var(--line);
+      margin-bottom: 2rem;
+      gap: 2rem;
+    }
+
+    .personal-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 300;
+      line-height: 1.05;
+    }
+
+    .personal-note {
+      font-size: 0.68rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-align: right;
+      flex-shrink: 0;
+    }
+
+    .personal-desc {
+      font-size: 0.95rem;
+      font-weight: 300;
+      color: var(--muted);
+      line-height: 1.8;
+      max-width: 560px;
+      margin-bottom: 2rem;
+    }
+
+    .personal-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.75rem;
+    }
+
+    .personal-grid .photo-slot {
+      aspect-ratio: 2 / 3;
+    }
+
+    @media (max-width: 768px) {
+      .personal { padding: 4rem 1.5rem; }
+      .personal-head { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+      .personal-note { text-align: left; }
+      .personal-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 480px) {
+      .personal-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ── ABOUT ── */
+    .about {
+      padding: 6rem 3rem;
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 5rem;
+      align-items: start;
+      border-top: 1px solid var(--line);
+    }
+
+    .about-sticky {
+      position: sticky;
+      top: 7rem;
+    }
+
+    .about-label {
+      font-size: 0.62rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 1rem;
+    }
+
+    .about-heading {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-weight: 300;
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      line-height: 1.1;
+    }
+
+    .about-text {
+      font-size: 1rem;
+      font-weight: 300;
+      color: #a8a39e;
+      line-height: 1.95;
+    }
+
+    /* ── CONNECT ── */
+    .connect {
+      padding: 6rem 3rem;
+      max-width: 1100px;
+      margin: 0 auto;
+      border-top: 1px solid var(--line);
+    }
+
+    .connect-heading {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(4rem, 11vw, 9rem);
+      line-height: 0.92;
+      margin-bottom: 3rem;
+    }
+
+    /* Digital card */
+    .contact-card {
+      max-width: 460px;
+      background: #111111;
+      border: 1px solid #232323;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .card-header {
+      padding: 2rem 2rem 1.75rem;
+      border-bottom: 1px solid #1c1c1c;
+      position: relative;
+    }
+
+    /* Gold top accent line */
+    .card-header::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent), transparent);
+    }
+
+    .card-brand-tag {
+      font-size: 0.78rem;
+      font-weight: 400;
+      letter-spacing: 0.04em;
+      color: var(--muted);
+      margin-bottom: 0.6rem;
+    }
+
+    .card-brand-tag strong { color: var(--accent); font-weight: 400; }
+
+    .card-full-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.6rem;
+      line-height: 1;
+      color: var(--text);
+      margin-bottom: 0.4rem;
+    }
+
+    .card-subtitle {
+      font-size: 0.68rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .card-rows {
+      padding: 0.35rem 0;
+    }
+
+    .card-row {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.85rem 2rem;
+      text-decoration: none;
+      color: inherit;
+      border-bottom: 1px solid #191919;
+      transition: background 0.15s;
+    }
+
+    .card-row:last-child { border-bottom: none; }
+    .card-row:hover { background: #161616; }
+    .card-row:hover .card-row-value { color: var(--text); }
+
+    .card-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 7px;
+      background: #1a1a1a;
+      border: 1px solid #222;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .card-icon svg { width: 15px; height: 15px; color: var(--accent); }
+
+    .card-row-text { flex: 1; min-width: 0; }
+
+    .card-row-label {
+      font-size: 0.58rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      display: block;
+      margin-bottom: 0.15rem;
+    }
+
+    .card-row-value {
+      font-size: 0.9rem;
+      font-weight: 400;
+      color: #c8c3be;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      transition: color 0.15s;
+    }
+
+    .card-row-arrow {
+      color: var(--muted);
+      opacity: 0;
+      transition: opacity 0.15s;
+      flex-shrink: 0;
+    }
+
+    .card-row:hover .card-row-arrow { opacity: 1; }
+    .card-row-arrow svg { width: 13px; height: 13px; display: block; }
+
+    .card-footer {
+      padding: 1.25rem 2rem;
+      border-top: 1px solid #1c1c1c;
+      display: flex;
+      gap: 0.6rem;
+      background: #0f0f0f;
+    }
+
+    .card-btn {
+      flex: 1;
+      padding: 0.65rem 0.5rem;
+      text-align: center;
+      font-size: 0.68rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      border-radius: 5px;
+      text-decoration: none;
+      transition: all 0.15s;
+      cursor: pointer;
+    }
+
+    .card-btn-primary {
+      background: var(--accent);
+      color: #0e0e0e;
+    }
+
+    .card-btn-primary:hover { background: #cfa060; }
+
+    .card-btn-secondary {
+      border: 1px solid #252525;
+      color: var(--muted);
+    }
+
+    .card-btn-secondary:hover { border-color: var(--accent); color: var(--text); }
+
+    @media (max-width: 768px) {
+      .connect { padding: 4rem 1.5rem; }
+      .contact-card { max-width: 100%; }
+      .card-header { padding: 1.5rem; }
+      .card-row { padding: 0.85rem 1.5rem; }
+      .card-footer { padding: 1rem 1.5rem; }
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 1.75rem 3rem;
+      border-top: 1px solid var(--line);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    /* ── MOBILE ── */
+    @media (max-width: 768px) {
+      nav { padding: 1.1rem 1.5rem; }
+      .nav-links { gap: 1.5rem; }
+      .nav-links a { font-size: 0.65rem; }
+
+      .hero { padding: 0 1.5rem 3rem; }
+      .hero-bottom { flex-direction: column; align-items: flex-start; gap: 1.5rem; }
+      .hero-cta { flex-direction: column; gap: 1.1rem; align-items: flex-start; }
+
+      .services { padding: 4rem 1.5rem; }
+      .services-head { flex-direction: column; gap: 0.6rem; }
+
+      .work { padding: 4rem 1.5rem; }
+      .work-head { flex-direction: column; gap: 0.6rem; }
+      .photo-grid { grid-template-columns: repeat(2, 1fr); }
+      .video-grid { grid-template-columns: 1fr; }
+
+      .video-section { padding: 0 1.5rem 4rem; }
+      .video-block { flex-direction: column; gap: 1.25rem; }
+      .video-vert-label { writing-mode: horizontal-tb; transform: none; }
+
+      .about { padding: 4rem 1.5rem; grid-template-columns: 1fr; gap: 2rem; }
+      .about-sticky { position: static; }
+
+      .connect { padding: 4rem 1.5rem; }
+      .cl-type { display: none; }
+
+      footer { padding: 1.5rem; flex-direction: column; gap: 0.4rem; text-align: center; }
+    }
+
+    /* Hide empty slots — remove class="placeholder" when you add real content */
+    .photo-slot.placeholder { display: none; }
+    .video-slot:has(> .video-placeholder) { display: none; }
+    /* If ALL photo slots are hidden, hide the grid entirely */
+    .photo-grid:not(:has(.photo-slot:not(.placeholder))) { display: none; }
+    .video-grid:not(:has(.video-slot:not(:has(> .video-placeholder)))) { margin-top: 0; }
+
+    /* ── INSTAGRAM STRIP ── */
+    .insta-section {
+      padding: 0 0 6rem;
+      border-top: 1px solid var(--line);
+    }
+
+    .insta-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 2rem 3rem;
+    }
+
+    .insta-handle {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+      color: var(--text);
+    }
+
+    .insta-handle-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .insta-handle-icon svg { width: 14px; height: 14px; }
+
+    .insta-handle-name {
+      font-size: 0.82rem;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+    }
+
+    .insta-follow {
+      font-size: 0.68rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: color 0.2s, gap 0.2s;
+    }
+
+    .insta-follow:hover { color: var(--text); gap: 0.6rem; }
+    .insta-follow svg { width: 12px; height: 12px; }
+
+    .insta-scroll {
+      display: flex;
+      gap: 0.5rem;
+      overflow-x: auto;
+      padding: 0 3rem;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      cursor: grab;
+    }
+
+    .insta-scroll::-webkit-scrollbar { display: none; }
+    .insta-scroll:active { cursor: grabbing; }
+
+    .insta-post {
+      flex-shrink: 0;
+      width: clamp(160px, 22vw, 240px);
+      aspect-ratio: 1;
+      background: var(--bg2);
+      border: 1px solid var(--line);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .insta-post img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.3s ease;
+    }
+
+    .insta-post:hover img { transform: scale(1.05); }
+
+    /* Placeholder state */
+    .insta-post.placeholder {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .insta-post.placeholder::after {
+      content: '+';
+      font-size: 1.2rem;
+      font-weight: 300;
+      color: var(--line);
+    }
+
+    .insta-scroll-end {
+      flex-shrink: 0;
+      width: clamp(100px, 15vw, 160px);
+      aspect-ratio: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .insta-scroll-end a {
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      text-align: center;
+      line-height: 1.7;
+      transition: color 0.2s;
+    }
+
+    .insta-scroll-end a:hover { color: var(--text); }
+
+    @media (max-width: 768px) {
+      .insta-header { padding: 1.5rem; }
+      .insta-scroll  { padding: 0 1.5rem; }
+    }
+
+    @media (max-width: 480px) {
+      nav { padding: 1rem; }
+      .nav-links { gap: 1rem; }
+      .photo-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a class="nav-logo" href="#"><span class="brand">ryker</span>.jpeg</a>
+    <ul class="nav-links">
+      <li><a href="#services">Work</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#connect">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <p class="hero-eyebrow">Photography &amp; Video</p>
+    <h1 class="hero-name">
+      <span>Ryker</span>
+      <span class="offset">Sieber</span>
+    </h1>
+    <div class="hero-bottom">
+      <p class="hero-tagline">Portraits, sports, family, seniors &amp; video.</p>
+      <div class="hero-cta">
+        <a href="#services">
+          View Services
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+        <a href="#connect" class="dim">
+          Get in Touch
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- MARQUEE -->
+  <div class="marquee-wrap">
+    <div class="marquee-inner">
+      <div class="marquee-item">Portraits<span class="marquee-sep"></span></div>
+      <div class="marquee-item">Car Photography<span class="marquee-sep"></span></div>
+      <div class="marquee-item">Sports Photography<span class="marquee-sep"></span></div>
+      <div class="marquee-item">Car Video<span class="marquee-sep"></span></div>
+      <div class="marquee-item">Family Photos<span class="marquee-sep"></span></div>
+      <div class="marquee-item">Interviews<span class="marquee-sep"></span></div>
+      <div class="marquee-item">Senior Photos<span class="marquee-sep"></span></div>
+      <div class="marquee-item">Short Form Video<span class="marquee-sep"></span></div>
+      <div class="marquee-item">Sports Content<span class="marquee-sep"></span></div>
+      <div class="marquee-item">Video Editing<span class="marquee-sep"></span></div>
+      <div class="marquee-item">Event Coverage<span class="marquee-sep"></span></div>
+      <div class="marquee-item">Highlight Reels<span class="marquee-sep"></span></div>
+      <div class="marquee-item">Portraits<span class="marquee-sep"></span></div>
+      <div class="marquee-item">Car Photography<span class="marquee-sep"></span></div>
+      <div class="marquee-item">Sports Photography<span class="marquee-sep"></span></div>
+      <div class="marquee-item">Car Video<span class="marquee-sep"></span></div>
+      <div class="marquee-item">Family Photos<span class="marquee-sep"></span></div>
+      <div class="marquee-item">Interviews<span class="marquee-sep"></span></div>
+      <div class="marquee-item">Senior Photos<span class="marquee-sep"></span></div>
+      <div class="marquee-item">Short Form Video<span class="marquee-sep"></span></div>
+      <div class="marquee-item">Sports Content<span class="marquee-sep"></span></div>
+      <div class="marquee-item">Video Editing<span class="marquee-sep"></span></div>
+      <div class="marquee-item">Event Coverage<span class="marquee-sep"></span></div>
+      <div class="marquee-item">Highlight Reels<span class="marquee-sep"></span></div>
+    </div>
+  </div>
+
+  <!-- SERVICES -->
+  <div class="services" id="services">
+    <div class="services-head">
+      <h2 class="services-title">Services</h2>
+      <span class="services-meta">15 offerings</span>
+    </div>
+
+    <div class="svc-section-label">Photography</div>
+
+    <div class="svc-row">
+      <span class="svc-num">01</span>
+      <span class="svc-name">Portraits</span>
+      <span class="svc-arr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></span>
+    </div>
+    <div class="svc-row">
+      <span class="svc-num">02</span>
+      <span class="svc-name">Sports Photography</span>
+      <span class="svc-arr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></span>
+    </div>
+    <div class="svc-row">
+      <span class="svc-num">03</span>
+      <span class="svc-name">Car Photography</span>
+      <span class="svc-arr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></span>
+    </div>
+    <div class="svc-row">
+      <span class="svc-num">04</span>
+      <span class="svc-name">Family Photos</span>
+      <span class="svc-arr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></span>
+    </div>
+    <div class="svc-row">
+      <span class="svc-num">05</span>
+      <span class="svc-name">Senior Photos</span>
+      <span class="svc-arr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></span>
+    </div>
+    <div class="svc-row">
+      <span class="svc-num">06</span>
+      <span class="svc-name">Brand & Product Photos</span>
+      <span class="svc-arr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></span>
+    </div>
+
+    <div class="svc-section-label">Video</div>
+
+    <div class="svc-row">
+      <span class="svc-num">07</span>
+      <span class="svc-name">Car Video</span>
+      <span class="svc-arr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></span>
+    </div>
+    <div class="svc-row">
+      <span class="svc-num">08</span>
+      <span class="svc-name">Sports Content</span>
+      <span class="svc-arr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></span>
+    </div>
+    <div class="svc-row">
+      <span class="svc-num">09</span>
+      <span class="svc-name">Interviews</span>
+      <span class="svc-arr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></span>
+    </div>
+    <div class="svc-row">
+      <span class="svc-num">10</span>
+      <span class="svc-name">Short Form Video</span>
+      <span class="svc-arr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></span>
+    </div>
+    <div class="svc-row">
+      <span class="svc-num">11</span>
+      <span class="svc-name">YouTube / Long Form</span>
+      <span class="svc-arr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></span>
+    </div>
+    <div class="svc-row">
+      <span class="svc-num">12</span>
+      <span class="svc-name">Brand & Product Videos</span>
+      <span class="svc-arr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></span>
+    </div>
+    <div class="svc-row">
+      <span class="svc-num">13</span>
+      <span class="svc-name">Event Coverage</span>
+      <span class="svc-arr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></span>
+    </div>
+    <div class="svc-row">
+      <span class="svc-num">14</span>
+      <span class="svc-name">Video Editing — Your Footage or Mine</span>
+      <span class="svc-arr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></span>
+    </div>
+    <div class="svc-row">
+      <span class="svc-num">15</span>
+      <span class="svc-name">Something Else — Email to Discuss</span>
+      <span class="svc-arr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></span>
+    </div>
+  </div>
+
+  <!-- WORK / PORTFOLIO
+       ═══════════════════════════════════════════════════════════════
+       ADDING PHOTOS:
+         1. Create a folder called "images" next to this file
+         2. Drop in your photos (jpg/png/webp)
+         3. Replace src="images/photo1.jpg" with your filename
+         4. Remove class="placeholder" from the slot once you add an image
+         5. Copy/delete .photo-slot blocks to add or remove slots
+
+       ADDING VIDEOS:
+         Option A — Local file (put video in a "videos/" folder):
+           <video controls><source src="videos/clip.mp4" type="video/mp4" /></video>
+
+         Option B — YouTube embed (YouTube → Share → Embed, copy the src URL):
+           <iframe src="https://www.youtube.com/embed/YOUR_ID" frameborder="0" allowfullscreen></iframe>
+
+         Replace the <div class="video-placeholder"></div> with one of the above.
+       ═══════════════════════════════════════════════════════════════
+  -->
+  <section class="work" id="work">
+    <div class="work-head">
+      <h2 class="work-title">Selected Work</h2>
+      <span class="work-meta">Photos &amp; Video</span>
+    </div>
+
+    <div class="photo-grid">
+      <!-- Slot 1 -->
+      <div class="photo-slot">
+        <img src="images/sports1.jpg" alt="Sports photography" />
+      </div>
+      <!-- Slot 2 -->
+      <div class="photo-slot">
+        <img src="images/sports2.jpg" alt="Sports photography" />
+      </div>
+      <!-- Slot 3 -->
+      <div class="photo-slot placeholder">
+        <!-- <img src="images/photo3.jpg" alt="" /> -->
+      </div>
+      <!-- Slot 4 -->
+      <div class="photo-slot placeholder">
+        <!-- <img src="images/photo4.jpg" alt="" /> -->
+      </div>
+      <!-- Slot 5 -->
+      <div class="photo-slot placeholder">
+        <!-- <img src="images/photo5.jpg" alt="" /> -->
+      </div>
+      <!-- Slot 6 -->
+      <div class="photo-slot placeholder">
+        <!-- <img src="images/photo6.jpg" alt="" /> -->
+      </div>
+    </div>
+
+    <div class="video-grid">
+      <!-- Video slot 1 -->
+      <div class="video-slot">
+        <video autoplay muted loop playsinline>
+          <source src="videos/shelby-wilson.mp4" type="video/mp4" />
+        </video>
+      </div>
+      <!-- Video slot 2 -->
+      <div class="video-slot">
+        <div class="video-placeholder">
+          <!-- Replace this div with a <video> or <iframe> (see comments above) -->
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- INSTAGRAM STRIP
+       ═══════════════════════════════════════════════════════════════
+       TO ADD YOUR INSTAGRAM PHOTOS:
+         1. Save your Instagram posts as square images (jpg/png)
+         2. Put them in your "images/" folder
+         3. Replace src="images/insta1.jpg" with your filenames
+         4. Remove class="placeholder" once you have an image
+         5. Copy/delete .insta-post blocks to add/remove slots
+         6. They link to your profile by default — to link a specific post,
+            wrap the <img> in an <a href="https://instagram.com/p/POST_ID/">
+       ═══════════════════════════════════════════════════════════════
+  -->
+  <div class="insta-section">
+    <div class="insta-header">
+      <a class="insta-handle" href="https://instagram.com/ryker.jpeg" target="_blank" rel="noopener">
+        <div class="insta-handle-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+            <circle cx="12" cy="12" r="4"/>
+            <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/>
+          </svg>
+        </div>
+        <span class="insta-handle-name">@ryker.jpeg</span>
+      </a>
+      <a class="insta-follow" href="https://instagram.com/ryker.jpeg" target="_blank" rel="noopener">
+        Follow
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+
+    <div class="insta-scroll" id="instaScroll">
+      <!-- Post 1 -->
+      <div class="insta-post placeholder">
+        <!-- <img src="images/insta1.jpg" alt="" /> -->
+      </div>
+      <!-- Post 2 -->
+      <div class="insta-post placeholder">
+        <!-- <img src="images/insta2.jpg" alt="" /> -->
+      </div>
+      <!-- Post 3 -->
+      <div class="insta-post placeholder">
+        <!-- <img src="images/insta3.jpg" alt="" /> -->
+      </div>
+      <!-- Post 4 -->
+      <div class="insta-post placeholder">
+        <!-- <img src="images/insta4.jpg" alt="" /> -->
+      </div>
+      <!-- Post 5 -->
+      <div class="insta-post placeholder">
+        <!-- <img src="images/insta5.jpg" alt="" /> -->
+      </div>
+      <!-- Post 6 -->
+      <div class="insta-post placeholder">
+        <!-- <img src="images/insta6.jpg" alt="" /> -->
+      </div>
+      <!-- "See more" cap -->
+      <div class="insta-scroll-end">
+        <a href="https://instagram.com/ryker.jpeg" target="_blank" rel="noopener">See more<br/>on Instagram</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- VIDEO SERVICES -->
+  <div class="video-section">
+    <div class="video-block">
+      <span class="video-vert-label">Video</span>
+      <div class="video-body">
+        <h3 class="video-title">Video Production &amp; Editing</h3>
+        <p class="video-desc">I can shoot and edit, or just edit what you already have. Send me your footage and I'll cut it into something usable.</p>
+        <div class="video-tags">
+          <span class="video-tag">Car Video</span>
+          <span class="video-tag">Sports Content</span>
+          <span class="video-tag">Interviews</span>
+          <span class="video-tag">Short Form</span>
+          <span class="video-tag">Event Coverage</span>
+          <span class="video-tag">Highlight Reels</span>
+          <span class="video-tag">Social Media Clips</span>
+          <span class="video-tag">Video Editing</span>
+          <span class="video-tag">Custom Projects</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PERSONAL / PASSION WORK
+       Add your nature/hiking photos here the same way as the main gallery.
+       Save them to the images/ folder and update the src attributes below.
+  -->
+  <section class="personal">
+    <div class="personal-head">
+      <h2 class="personal-title">Outside Work</h2>
+      <p class="personal-note">Personal — not a service</p>
+    </div>
+    <p class="personal-desc">I hike a lot and bring a camera. Birds, landscapes, whatever's there. Not something I charge for — just something I shoot.</p>
+    <div class="personal-grid">
+      <div class="photo-slot">
+        <img src="images/nature1.jpg" alt="Nature photography" />
+      </div>
+      <div class="photo-slot">
+        <img src="images/nature2.jpg" alt="Night sky" />
+      </div>
+      <div class="photo-slot">
+        <img src="images/nature3.jpg" alt="Sunset over water" />
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="about" id="about">
+    <div class="about-sticky">
+      <p class="about-label">About</p>
+      <h2 class="about-heading">Behind<br/>the Lens</h2>
+    </div>
+    <p class="about-text">
+      I'm Ryker. I do photography and video — portraits, sports, family sessions,
+      seniors, and editing. I try to keep things pretty straightforward: show up,
+      get good shots, and deliver something you'll actually use. If you have
+      something specific in mind, reach out and we'll figure it out.
+    </p>
+  </section>
+
+  <!-- CONNECT -->
+  <section class="connect" id="connect">
+    <h2 class="connect-heading">Let's Work<br/>Together.</h2>
+
+    <div class="contact-card">
+      <!-- Card header -->
+      <div class="card-header">
+        <p class="card-brand-tag"><strong>ryker</strong>.jpeg</p>
+        <h2 class="card-full-name">Ryker Sieber</h2>
+        <p class="card-subtitle">Photography &amp; Video</p>
+      </div>
+
+      <!-- Contact rows -->
+      <div class="card-rows">
+        <a class="card-row" href="tel:5129217544">
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.07 1.18 2 2 0 012.03 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92v2z"/>
+            </svg>
+          </div>
+          <div class="card-row-text">
+            <span class="card-row-label">Mobile</span>
+            <span class="card-row-value">(512) 921-7544</span>
+          </div>
+          <span class="card-row-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></span>
+        </a>
+
+        <a class="card-row" href="mailto:rykersieber@gmail.com">
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <rect x="2" y="4" width="20" height="16" rx="2"/>
+              <path d="M2 7l10 7 10-7"/>
+            </svg>
+          </div>
+          <div class="card-row-text">
+            <span class="card-row-label">Email</span>
+            <span class="card-row-value">rykersieber@gmail.com</span>
+          </div>
+          <span class="card-row-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></span>
+        </a>
+
+        <a class="card-row" href="https://instagram.com/ryker.jpeg" target="_blank" rel="noopener">
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <rect x="2" y="2" width="20" height="20" rx="5"/>
+              <circle cx="12" cy="12" r="4"/>
+              <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/>
+            </svg>
+          </div>
+          <div class="card-row-text">
+            <span class="card-row-label">Photography / Media</span>
+            <span class="card-row-value">@ryker.jpeg</span>
+          </div>
+          <span class="card-row-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></span>
+        </a>
+
+        <a class="card-row" href="https://instagram.com/rykersieber" target="_blank" rel="noopener">
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <circle cx="12" cy="8" r="4"/>
+              <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+            </svg>
+          </div>
+          <div class="card-row-text">
+            <span class="card-row-label">Personal</span>
+            <span class="card-row-value">@rykersieber</span>
+          </div>
+          <span class="card-row-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></span>
+        </a>
+      </div>
+
+      <!-- Footer actions -->
+      <div class="card-footer">
+        <a class="card-btn card-btn-primary"
+           href="data:text/vcard;charset=utf-8,BEGIN%3AVCARD%0AVERSION%3A3.0%0AN%3ASieber%3BRyker%3B%3B%3B%0AFN%3ARyker%20Sieber%0AORG%3Aryker.jpeg%0ATITLE%3APhotography%20%26%20Video%0ATEL%3BTYPE%3DCELL%3A%2B15129217544%0AEMAIL%3Arykersieber%40gmail.com%0AURL%3Ahttps%3A%2F%2Finstagram.com%2Fryker.jpeg%0AEND%3AVCARD"
+           download="ryker-sieber.vcf">
+          Save Contact
+        </a>
+        <a class="card-btn card-btn-secondary" href="https://instagram.com/ryker.jpeg" target="_blank" rel="noopener">
+          View Work
+        </a>
+        <a class="card-btn card-btn-secondary" href="mailto:rykersieber@gmail.com">
+          Book Now
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <span>© 2026 Ryker Sieber</span>
+    <span>Photography &amp; Video</span>
+  </footer>
+
+  <script>
+    // Drag-to-scroll on the Instagram strip
+    const strip = document.getElementById('instaScroll');
+    let isDown = false, startX, scrollLeft;
+    strip.addEventListener('mousedown', e => { isDown = true; startX = e.pageX - strip.offsetLeft; scrollLeft = strip.scrollLeft; });
+    strip.addEventListener('mouseleave', () => isDown = false);
+    strip.addEventListener('mouseup', () => isDown = false);
+    strip.addEventListener('mousemove', e => {
+      if (!isDown) return;
+      e.preventDefault();
+      strip.scrollLeft = scrollLeft - (e.pageX - strip.offsetLeft - startX);
+    });
+  </script>
+</body>
+</html>
